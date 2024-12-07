@@ -10,7 +10,7 @@ func achieveGoal(numbers []int, goal int) bool {
 			return false
 		}
 		v := numbers[i]
-		return rec(i+1, s+v) || rec(i+1, s*v)
+		return rec(i+1, s*v) || rec(i+1, s+v)
 	}
 	return rec(0, 0)
 }

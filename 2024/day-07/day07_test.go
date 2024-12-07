@@ -9,10 +9,10 @@ import (
 	"testing"
 )
 
-func createInput(t *testing.T, filename string) [][]int {
+func createInput(filename string) [][]int {
 	b, err := os.ReadFile(filename)
 	if err != nil {
-		t.Fatal(err)
+		panic(err)
 	}
 	scanner := bufio.NewScanner(bytes.NewBuffer(b))
 
@@ -31,13 +31,13 @@ func createInput(t *testing.T, filename string) [][]int {
 }
 
 func testPart(t *testing.T, fn func(eqs [][]int) int, expected int) {
-	inputTest := createInput(t, "test.txt")
+	inputTest := createInput("test.txt")
 	answer := fn(inputTest)
 	if answer != expected {
 		t.Errorf("Expected %d, got %d", expected, answer)
 		return
 	}
-	inputPuzzle := createInput(t, "puzzle.txt")
+	inputPuzzle := createInput("puzzle.txt")
 	answer = fn(inputPuzzle)
 	t.Logf("Answer: %d", answer)
 }
@@ -48,4 +48,10 @@ func TestPart1(t *testing.T) {
 
 func TestPart2(t *testing.T) {
 	testPart(t, Part2, 11387)
+}
+
+func BenchmarkMain(b *testing.B) {
+	inputPuzzle := createInput("puzzle.txt")
+	answer := Part2(inputPuzzle)
+	b.Logf("Answer: %d", answer)
 }
