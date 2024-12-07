@@ -27,11 +27,18 @@ func visitedInTheSameDirection(v, d int) bool {
 	return v&d == d
 }
 
-func canLoop(i, j, d int, g [][]byte, visited [][]int) int {
-	tempVisited := make([][]int, len(visited))
-	for z := range tempVisited {
-		tempVisited[z] = make([]int, len(visited[0]))
+func writeInMap(m map[int]map[int]int, a, b, v int) {
+	if _, ok := m[a]; !ok {
+		m[a] = make(map[int]int)
 	}
+	if _, ok := m[b]; !ok {
+		m[b] = make(map[int]int)
+	}
+	m[a][b] |= v
+}
+
+func canLoop(i, j, d int, g [][]byte, visited map[int]map[int]int) int {
+	tempVisited := map[int]map[int]int{}
 
 	for {
 		ni, nj := i+dirs[d][0], j+dirs[d][1]
@@ -45,7 +52,7 @@ func canLoop(i, j, d int, g [][]byte, visited [][]int) int {
 			if visitedInTheSameDirection(visited[ni][nj], f) || visitedInTheSameDirection(tempVisited[ni][nj], f) {
 				return 1
 			}
-			tempVisited[ni][nj] |= f
+			writeInMap(tempVisited, ni, nj, f)
 			d = (d + 1) % 4
 			continue
 		}
@@ -55,10 +62,7 @@ func canLoop(i, j, d int, g [][]byte, visited [][]int) int {
 }
 
 func Part2(g [][]byte) int {
-	visited := make([][]int, len(g))
-	for i := range visited {
-		visited[i] = make([]int, len(g[0]))
-	}
+	visited := map[int]map[int]int{}
 
 	gi, gj := findGuardPosition(g)
 	i, j := gi, gj
@@ -71,7 +75,7 @@ func Part2(g [][]byte) int {
 			break
 		}
 		if g[ni][nj] == wall {
-			visited[ni][nj] |= dirToFlag(move)
+			writeInMap(visited, ni, nj, dirToFlag(move))
 			move = (move + 1) % 4
 			continue
 		}

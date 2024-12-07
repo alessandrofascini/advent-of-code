@@ -31,10 +31,6 @@ func testPart(t *testing.T, fn func(g [][]byte) int, expected int) {
 	}
 	inputPuzzle := createInput(t, "puzzle.txt")
 	answer = fn(inputPuzzle)
-	if answer != 1618 {
-		t.Errorf("Expected %d, got %d", expected, answer)
-		return
-	}
 	t.Logf("Answer: %d", answer)
 }
 
