@@ -33,3 +33,8 @@ func TestPart2(t *testing.T) {
 	// 6304576012713
 	testPart(t, Part2, 2858)
 }
+
+func TestPart3(t *testing.T) {
+	inputPuzzle := createInput("test.txt")
+	Part2BruteForce(inputPuzzle)
+}

@@ -1,6 +1,8 @@
 package day12
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Direction = int
 
@@ -50,9 +52,18 @@ func (uf *UnionFind) Find(e *Element) (string, bool) {
 	}
 	// parent cannot be nil
 	parent := element.parent
+
+	elements := make([]*Element, 0)
 	for parent.parent != nil {
+		elements = append(elements, parent)
+		element = parent
 		parent = parent.parent
 	}
+
+	for _, el := range elements {
+		el.parent = parent
+	}
+
 	return parent.String(), true
 }
 
@@ -84,20 +95,10 @@ func (uf *UnionFind) Union(a, b string) {
 	}
 	// a and b are presents
 	uf.partitions--
-	elements := make([]*Element, 0)
+	parent := uf.forest[a]
+	child := uf.forest[b]
 
-	curr := uf.forest[b]
-	parent := curr.parent
-	for parent != nil && parent.parent != nil {
-		elements = append(elements, curr)
-		curr = parent
-		parent = parent.parent
-	}
-
-	newParent := uf.forest[a]
-	for _, element := range elements {
-		element.parent = newParent
-	}
+	child.parent = parent
 }
 
 func (uf *UnionFind) Belongs(k string) bool {

@@ -1,4 +1,4 @@
-package day10
+package day08
 
 func findAntiNodes(coll []*coords, p, q *coords, n, m int) []*coords {
 	if q.x < p.x || q.y < p.y {

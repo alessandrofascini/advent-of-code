@@ -49,9 +49,3 @@ func TestPart1(t *testing.T) {
 func TestPart2(t *testing.T) {
 	testPart(t, Part2, 11387)
 }
-
-func BenchmarkMain(b *testing.B) {
-	inputPuzzle := createInput("puzzle.txt")
-	answer := Part2(inputPuzzle)
-	b.Logf("Answer: %d", answer)
-}
