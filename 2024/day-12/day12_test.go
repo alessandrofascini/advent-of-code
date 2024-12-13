@@ -33,3 +33,11 @@ func TestPart1(t *testing.T) {
 func TestPart2(t *testing.T) {
 	testPart(t, Part2, 1206)
 }
+
+func BenchmarkPart1(b *testing.B) {
+	inputPuzzle := createInput("puzzle.txt")
+	b.StartTimer()
+	answer := Part2(inputPuzzle)
+	b.StopTimer()
+	b.Logf("Answer: %d", answer)
+}
