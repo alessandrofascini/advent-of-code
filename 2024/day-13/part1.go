@@ -15,6 +15,16 @@ func mcm(a, b int64) int64 {
 	return n / a
 }
 
+func sameSign(a, b int64) (int64, int64, bool) {
+	if a < 0 && b < 0 {
+		return -a, -b, true
+	}
+	if a >= 0 && b >= 0 {
+		return a, b, true
+	}
+	return 0, 0, false
+}
+
 func tryToWin(a, b, goal [2]int64) int64 {
 	v1, v2, x := a[0], b[0], goal[0]
 	v3, v4, y := a[1], b[1], goal[1]
@@ -26,24 +36,14 @@ func tryToWin(a, b, goal [2]int64) int64 {
 	n2 := n / v3
 	v4, y = v4*n2, y*n2
 
-	betaD, betaN := v2-v4, x-y
-	if betaN < 0 && betaD < 0 {
-		betaN, betaD = -betaN, -betaD
-	} else if !(betaN >= 0 && betaD >= 0) {
-		return 0
-	}
-	if betaN%betaD != 0 {
+	betaD, betaN, ok := sameSign(v2-v4, x-y)
+	if !ok || betaN%betaD != 0 {
 		return 0
 	}
 	beta := betaN / betaD
 
-	alfaN, alfaD := goal[0]-beta*b[0], a[0]
-	if alfaN < 0 && alfaD < 0 {
-		alfaN, alfaD = -alfaN, -alfaD
-	} else if !(alfaN >= 0 && alfaD >= 0) {
-		return 0
-	}
-	if alfaN%alfaD != 0 {
+	alfaN, alfaD, ok := sameSign(goal[0]-beta*b[0], a[0])
+	if !ok || alfaN%alfaD != 0 {
 		return 0
 	}
 	alfa := alfaN / alfaD
