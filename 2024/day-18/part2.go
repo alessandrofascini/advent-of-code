@@ -2,6 +2,8 @@ package day18
 
 import "fmt"
 
+// optimize this solution with union find
+
 func makeKey(i, j int) string {
 	return fmt.Sprintf("%d,%d", i, j)
 }
