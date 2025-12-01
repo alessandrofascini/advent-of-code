@@ -1,7 +1,6 @@
-package day202310
+package day23
 
 import (
-	"bufio"
 	"bytes"
 	"os"
 	"testing"
@@ -12,31 +11,29 @@ func createInput(filename string) [][]byte {
 	if err != nil {
 		panic(err)
 	}
-	scanner := bufio.NewScanner(bytes.NewBuffer(b))
-
-	input := make([][]byte, 0)
-	for scanner.Scan() {
-		input = append(input, []byte(scanner.Text()))
-	}
-	return input
+	return bytes.Split(b, []byte("\n"))
 }
 
-func testPart(t *testing.T, fn func(eqs [][]byte) int, expected int) {
+func testPart(t *testing.T, fn func([][]byte) int, expected int, proceed bool) {
 	inputTest := createInput("test.txt")
 	answer := fn(inputTest)
 	if answer != expected {
 		t.Errorf("Expected %d, got %d", expected, answer)
 		return
 	}
+	t.Logf("Test Answer: %d", answer)
+	if !proceed {
+		return
+	}
 	inputPuzzle := createInput("puzzle.txt")
 	answer = fn(inputPuzzle)
-	t.Logf("Answer: %d", answer)
+	t.Logf("Puzzle Answer: %d", answer)
 }
 
 func TestPart1(t *testing.T) {
-	testPart(t, Part1, 80)
+	testPart(t, Part1, 94, true)
 }
 
 func TestPart2(t *testing.T) {
-	testPart(t, Part2, 10)
+	testPart(t, Part2, 154, false)
 }

@@ -1,17 +1,22 @@
 package day16
 
-import "container/heap"
+import (
+	"container/heap"
+	"fmt"
+)
 
 // An Item is something we manage in a priority queue.
 type Item struct {
-	value    []int // The value of the item; arbitrary.
-	priority int   // The priority of the item in the queue.
+	i, j      int // The value of the item; arbitrary.
+	direction int
+	priority  int // The priority of the item in the queue.
+
 	// The index is needed by update and is maintained by the heap.Interface methods.
 	index int // The index of the item in the heap.
 }
 
-func NewItem(i, j, priority int) *Item {
-	return &Item{[]int{i, j}, priority, -1}
+func (item *Item) Key() string {
+	return fmt.Sprintf("%d,%d", item.i, item.j)
 }
 
 // A PriorityQueue implements heap.Interface and holds Items.
@@ -48,8 +53,8 @@ func (pq *PriorityQueue) Pop() any {
 }
 
 // update modifies the priority and value of an Item in the queue.
-func (pq *PriorityQueue) update(item *Item, value []int, priority int) {
-	item.value = value
+func (pq *PriorityQueue) update(item *Item, direction, priority int) {
+	item.direction = direction
 	item.priority = priority
 	heap.Fix(pq, item.index)
 }

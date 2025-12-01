@@ -64,9 +64,9 @@ func exeOut(A, B, C, op int) int {
 	return comboOperator(A, B, C, op) % 8
 }
 
-func Part1(A, B, C int, program []int) string {
+func executeProgram(A, B, C int, program []int) []int {
 	P := len(program)
-	outputs := make([]string, 0)
+	output := make([]int, 0)
 	for ip := 0; ip < P; ip = ip + 2 {
 		cmd, op := program[ip], program[ip+1]
 		switch cmd {
@@ -85,11 +85,7 @@ func Part1(A, B, C int, program []int) string {
 		case out:
 			result := exeOut(A, B, C, op)
 			// out this value
-			s := strconv.Itoa(result)
-			str := strings.Split(s, "")
-			for i := len(str) - 1; i >= 0; i-- {
-				outputs = append(outputs, str[i])
-			}
+			output = append(output, result)
 		case bdv:
 			B = exeAdv(A, B, C, op)
 		case cdv:
@@ -98,5 +94,14 @@ func Part1(A, B, C int, program []int) string {
 			panic("invalid command")
 		}
 	}
-	return strings.Join(outputs, ",")
+	return output
+}
+
+func Part1(A, B, C int, program []int) string {
+	iterator := executeProgram(A, B, C, program)
+	outs := make([]string, 0)
+	for _, v := range iterator {
+		outs = append(outs, strconv.Itoa(v))
+	}
+	return strings.Join(outs, ",")
 }
