@@ -41,5 +41,5 @@ func TestPart2(t *testing.T) {
 	input := ReadInput(t, "test.txt")
 	t.Log("test:", Part2(input), Part2(input) == 3121910778619)
 	input = ReadInput(t, "puzzle.txt")
-	t.Log("puzzle:", Part2(input))
+	t.Log("puzzle:", Part2(input), Part2(input) == 168575096286051)
 }
