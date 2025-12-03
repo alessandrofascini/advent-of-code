@@ -10,7 +10,7 @@ import (
 )
 
 func readInput(t *testing.T, filename string) []Range {
-		b, err := os.ReadFile(filename)
+	b, err := os.ReadFile(filename)
 	if err != nil {
 		t.Fatal(err)
 	}
