@@ -3,7 +3,7 @@ package day04
 const NOTHING = '.'
 const ROOL_OF_PAPER = '@'
 
-type Row = string
+type Row = []rune
 
 var directions = [][]int{
 	{-1,-1},
@@ -39,6 +39,29 @@ func Part1(grid []Row) int64 {
 				ans++
 			}	
 		}
+	}
+
+	return ans
+}
+
+func Part2(grid []Row) int64 {
+	ans := int64(0)
+
+	for {
+		t := int64(0)
+		for i, row := range grid {
+			for j, cell := range row {
+				if cell == ROOL_OF_PAPER && canAccess(i, j, grid) < 4 {
+					t++
+					grid[i][j] = rune(NOTHING)
+				}	
+			}
+		}
+
+		if t == 0 {
+			break
+		}
+		ans += t
 	}
 
 	return ans

@@ -16,7 +16,7 @@ func ReadInput(t *testing.T, filename string) []Row {
 	input := make([]Row, 0)
 	for scanner.Scan() {
 		line := scanner.Text()
-		input = append(input, line)
+		input = append(input, []rune(line))
 	}
 	return input
 }
@@ -27,4 +27,11 @@ func TestPart1(t *testing.T) {
 
 	input = ReadInput(t, "puzzle.txt")
 	t.Log("puzzle:", Part1(input))
+}
+
+func TestPart2(t *testing.T) {
+	input := ReadInput(t, "test.txt")
+	t.Log("test:", Part2(input))
+	input = ReadInput(t, "puzzle.txt")
+	t.Log("puzzle:", Part2(input))
 }
